@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {{form_start(form)}}
+        {{form_row(form.titre)}}
+        {{form_row(form.type)}}
+        {{form_row(form.contenu)}}
+        {{form_row(form.contrepartie)}}
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    {{form_end(form)}}
+
+{% endblock %}

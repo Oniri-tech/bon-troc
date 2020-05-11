@@ -2,11 +2,40 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Le bon Troc{% endblock %}</title>
+        <link href="https://bootswatch.com/4/sketchy/bootstrap.min.css" rel="stylesheet" 
+        crossorigin="anonymous">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <body style="background: rgb(202,212,209);
+    background: radial-gradient(circle, rgba(202,212,209,1) 0%, rgba(75,209,151,1) 100%);">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="{{path('index')}}">Le bon Troc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{path('index')}}">Home</a>
+            </li>
+          </ul>
+          
+          {% if not app.user %}
+            <a class="nav-link" href="{{path('inscription')}}"><button class="btn btn-warning"> S'inscrire </button></a>
+          {% else %}
+            {% if is_granted('ROLE_ADMIN') %}
+              <a class="nav-link" href="{{path('allUser')}}"><button class="btn btn-warning"> Liste des utilisateurs </button></a>
+              <a class="nav-link" href="{{path('annoncesWait')}}"><button class="btn btn-warning"> Annonces en attente </button></a>
+            {% endif %}
+              <a class="nav-link" href="{{path('allAnnonces')}}"><button class="btn btn-success"> Liste des Annonces </button></a>
+              <a class="nav-link" href="{{path('profile', {'id': app.user.id })}}"><button class="btn btn-info">Mon Profil</button>
+              <a class="nav-link" href="{{path('security_logout')}}"><button class="btn btn-outline-warning">Se déconnecter</button></a>
+          {% endif %}
+        </div>
+      </nav>
+      {% block body %}{% endblock %}
+      {% block javascripts %}{% endblock %}
     </body>
 </html>

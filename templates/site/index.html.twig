@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SiteController!{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center">Le Bon Troc</h1>
+
+<div class="container">
+    {% if not app.user %}
+    <form action="{{ path('index') }}" method="post">
+        <div class="form-group">
+            <input placeholder="Adresse email" required name="_username" 
+            type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <input placeholder="Mot de Passe" required name="_password" 
+            type="password" class="form-control">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Connexion</button>
+        </div>
+    </form>
+    {% endif %}
+    <h1 class="text-center">Qui sommes-nous ?</h1>
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-md-6">
+                <h3>Un retour à l'humain...</h3>
+                <br>
+                <img src="https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                style="width:300px">
+                <p>"Le bon troc" est une initiative ayant pour but de revaloriser les échanges humains, ici vos actions ne seront pas monétaires, vous participerez par du troc ou des services !</p>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-md-6">
+                <h3>... Motivé par les évenements récents</h3>
+                <br>
+                <img src="https://images.unsplash.com/photo-1579208575657-c595a05383b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                style="width:300px">
+                <p>Après les récentes crises, Il est plus important que jamais de renouer avec notre communauté proche, sans le prysme économique, nos rapports retrouveront bienveillance et solidarité</p>
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-md-6">
+                <h3>Comment faire ?</h3>
+                <br>
+                <img src="https://images.unsplash.com/photo-1529007328922-d323f83de273?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                style="width:300px">
+                <p>Pour commencer, inscrivez-vous. Vous pourrez ensuite commencer à rechercher des annonces demandant de l'aide ou proposant un service. Le but de est de se mettre soit
+                et ses compétences à dispositions, un geste de votre part est donc demandé en échange d'un service.</p>
+            </div>    
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-md-6">
+                <h3>Quel type de service ?</h3>
+                <img src="https://images.unsplash.com/photo-1543747255-94b72995ac74?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                style="width:300px">
+                <p>Le spectre est très large ! De la vidange de voiture à la préparation de gateaux en passant par le baby-sitting, c'est selon ce que vous avez à offrir.
+                Par exemple, une personne peut demander de l'aide pour ramasser des fruits dans son verger en échange d'une partie des fruits récoltés ! </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

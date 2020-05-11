@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center">{{annonce.titre}}</h1>
+
+    {% if annonce.valide is same as(false)%}
+        <p class="text-center"><span class="badge badge-danger">Cette annonce est en attente de validation par un modérateur</span></p>
+    {% elseif annonce.valide is same as(true) and posteur.id is same as(app.user.id) %}
+        <p class="text-center"><span class="badge badge-success">Votre annonce est en ligne :)</span></p>
+    {% endif %}
+
+    <p class="text-center">{{ posteur.codePost }} {{posteur.commune}}</p>
+   <p class="text-center">annonce postée par {{posteur.nom}} {{posteur.prenom}}</p>
+   <br>
+   <h3>Type d'annnonce : {{ annonce.type }}</h3>
+   <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-md-5" style="background: rgb(210,224,19);
+                background: radial-gradient(circle, rgba(210,224,19,1) 0%, rgba(200,240,85,1) 100%); border-radius:5px">
+                {% if annonce.type is same as('recherche') %}
+                    <h3 class="text-center">Je cherche de l'aide pour :</h3>
+                {% else %}
+                    <h3 class="text-center">Je propose comme service:</h3>
+                {% endif %}
+                <p>{{annonce.contenu}}</p>
+            </div>
+            <div class="col-md-5" style="background: rgb(210,224,19);
+            background: radial-gradient(circle, rgba(210,224,19,1) 0%, rgba(200,240,85,1) 100%); border-radius:5px">
+                <h3 class="text-center">En échange de :</h3>
+                <p>{{annonce.contrepartie}}</p>
+            </div>
+        </div>
+   </div>
+    {% if is_granted('ROLE_ADMIN') or app.user.id is same as(posteur.id) %}
+        <a href="{{path('delete',{'id': annonce.id})}}"><button class="btn btn-danger">Supprimer l'annonce</button></a>
+        <a href="{{path('update',{'id': annonce.id})}}"><button class="btn btn-warning">Modifier l'annonce</button></a>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') and annonce.valide is same as(false) %}
+        <a href="{{path('validate',{'id': annonce.id})}}"><button class="btn btn-success">Valider l'annonce</button></a>
+    {% endif %}
+    <a href="{{path('profile',{'id': posteur.id})}}"><button class="btn btn-success">Aller sur le profil de {{ posteur.prenom }}</button></a>
+{% endblock %}

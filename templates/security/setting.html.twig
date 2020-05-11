@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center">Inscription</h1>
+
+    {{form_start(form)}}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                {{form_row(form.mail)}}
+                {{form_row(form.nom)}}
+                {{form_row(form.prenom)}}
+                {{form_row(form.telephone)}}
+            </div>
+            <div class="col-lg-6">
+                {{form_row(form.code_post)}}
+                {{form_row(form.commune)}}
+                {{form_row(form.password)}}
+                {{form_row(form.confirm_password)}}
+            </div>
+            
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-success ml-auto mr-auto">S'inscrire</button>
+    </div>
+    {{form_end(form)}}
+    {% if app.user %}
+        {% if is_granted('ROLE_ADMIN') or app.user.id is same as(user.id) %}
+        <div class="fixed-bottom">
+            <a href="{{path('deleteUser', {'id':user.id})}}" onclick="return(confirm('Etes-vous sûr de vouloir supprimer votre compte ?'));"><button class="btn btn-secondary">supprimer mon compte</button></a>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
