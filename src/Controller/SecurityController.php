@@ -23,12 +23,12 @@ class SecurityController extends AbstractController
         if (!$user) {
             $user = new User();
         }
-        
         $form = $this->createForm(InscriptionType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            $user->setPassword(htmlspecialchars($user->getPassword()));
             $hash = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash);
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/setting.html.twig', [
             'form'=> $form->createView(),
-            'user'=> $user
+            'user'=> $user,
         ]);
     }
     /**
@@ -64,6 +64,10 @@ class SecurityController extends AbstractController
             }
             $manager->remove($user);
             $manager->flush();
+            $this->addFlash(
+                'notice',
+                'Le compte à bien été supprimé du site !'
+            );
             return $this->redirectToRoute('index');
         }
         

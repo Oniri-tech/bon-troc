@@ -35,6 +35,11 @@
           {% endif %}
         </div>
       </nav>
+      {% for message in app.flashes('notice') %}
+          <script>
+              alert("{{ message }}");
+          </script>
+      {% endfor %}
       {% block body %}{% endblock %}
       {% block javascripts %}{% endblock %}
     </body>

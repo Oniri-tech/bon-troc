@@ -36,7 +36,10 @@ class AdminController extends AbstractController
         $annonce->setValide(true);
         $manager->persist($annonce);
         $manager->flush();
-
+        $this->addFlash(
+            'notice',
+            'Cette annonce a bien été validée, elle est maintenant disponible en ligne'
+        );
         return $this->redirectToRoute('index');
     }
     /**

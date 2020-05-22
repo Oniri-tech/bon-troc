@@ -15,6 +15,7 @@
                 {{form_row(form.telephone)}}
             </div>
             <div class="col-lg-6">
+                {{form_row(form.departement, {'attr': {'id': 'departement'}})}}
                 {{form_row(form.code_post)}}
                 {{form_row(form.commune)}}
                 {{form_row(form.password)}}
@@ -34,4 +35,9 @@
         </div>
         {% endif %}
     {% endif %}
+{% endblock %}
+{% block script %}
+    <script>
+        let department = document.getElementById("departement");
+    </script>
 {% endblock %}

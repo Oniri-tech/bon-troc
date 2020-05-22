@@ -64,6 +64,10 @@ class SiteController extends AbstractController
             $manager->persist($annonce);
             $manager->flush();
 
+            $this->addFlash(
+                'notice',
+                'Votre annonce a bien été enregistrée ! Elle sera mise en ligne après vérification par un modérateur'
+            );
             return $this->redirectToRoute('profile', ['id'=> $id]);
         }
 
@@ -132,6 +136,10 @@ class SiteController extends AbstractController
         else {
             $manager->remove($annonce);
             $manager->flush();
+            $this->addFlash(
+                'notice',
+                'Cette annonce à bien été supprimée !'
+            );
             if ($user == $this->getUser()->getId()) {
                 return $this->redirectToRoute('profile', ['id'=> $user]);
             }
@@ -150,8 +158,10 @@ class SiteController extends AbstractController
         $annonces = [];
         foreach ($usersexte as $userexte) {
             $annoncesUser = $userexte->getAnnonces();
-            foreach ($annoncesUser as $annonceUser){
-                array_push($annonces, $annonceUser);
+            foreach ($annoncesUser as $annonce){
+                if ($annonce->getValide() == true) {
+                    array_push($annonces, $annonce);
+                }
             }
         }
         return $this->render('site/liste_annonces.html.twig', [

@@ -29,16 +29,27 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z-éèàäçï]+$['-]?/",
+     *      match=true,
+     *      message="Votre nom ne doit contenir que des caractères entre A et Z")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z-éèàäçï]+$['-]?/",
+     *      match=true,
+     *      message="Votre prénom ne doit contenir que des caractères entre A et Z")
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\Regex(pattern="/(0|\+33)[1-9]( *[0-9]{2}){4}/",
+     *               htmlPattern = "^(0|\+33)[1-9]( *[0-9]{2}){4}+$",
+     *                 message="Veuillez rentrer un numéro de téléphone valide")
      */
     private $telephone;
 
@@ -73,6 +84,11 @@ class User implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $departement;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
@@ -90,7 +106,7 @@ class User implements UserInterface
 
     public function setMail(string $mail): self
     {
-        $this->mail = $mail;
+        $this->mail = htmlspecialchars($mail);
 
         return $this;
     }
@@ -102,7 +118,7 @@ class User implements UserInterface
 
     public function setNom(string $nom): self
     {
-        $this->nom = $nom;
+        $this->nom = htmlspecialchars($nom);
 
         return $this;
     }
@@ -114,7 +130,7 @@ class User implements UserInterface
 
     public function setPrenom(string $prenom): self
     {
-        $this->prenom = $prenom;
+        $this->prenom = htmlspecialchars($prenom);
 
         return $this;
     }
@@ -126,7 +142,7 @@ class User implements UserInterface
 
     public function setTelephone(string $telephone): self
     {
-        $this->telephone = $telephone;
+        $this->telephone = htmlspecialchars($telephone);
 
         return $this;
     }
@@ -138,7 +154,7 @@ class User implements UserInterface
 
     public function setCodePost(string $code_post): self
     {
-        $this->code_post = $code_post;
+        $this->code_post = htmlspecialchars($code_post);
 
         return $this;
     }
@@ -150,7 +166,7 @@ class User implements UserInterface
 
     public function setCommune(string $commune): self
     {
-        $this->commune = $commune;
+        $this->commune = htmlspecialchars($commune);
 
         return $this;
     }
@@ -217,6 +233,18 @@ class User implements UserInterface
     public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?string
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(string $departement): self
+    {
+        $this->departement = $departement;
 
         return $this;
     }
