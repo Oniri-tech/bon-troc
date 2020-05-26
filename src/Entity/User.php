@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $departement;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $activation_token;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
@@ -245,6 +250,18 @@ class User implements UserInterface
     public function setDepartement(string $departement): self
     {
         $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activation_token;
+    }
+
+    public function setActivationToken(?string $activation_token): self
+    {
+        $this->activation_token = $activation_token;
 
         return $this;
     }

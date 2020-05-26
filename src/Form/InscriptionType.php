@@ -13,6 +13,7 @@ class InscriptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Génère la liste des départements avec l'api API Géo
         $deptURL = "https://geo.api.gouv.fr/departements";
         $deptJson = file_get_contents($deptURL);
         $deptArray = json_decode($deptJson);
@@ -30,6 +31,7 @@ class InscriptionType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('departement', ChoiceType::class, [
+                'placeholder' => 'Choisir un département',
                 'choices' => $departements
             ])
             ->add('code_post')

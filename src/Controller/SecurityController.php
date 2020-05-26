@@ -9,6 +9,9 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,7 +21,7 @@ class SecurityController extends AbstractController
      * @Route("/inscription", name="inscription")
      * @Route("/user/{id}/settings", name="settings")
      */
-    public function setAccount(User $user = null, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function setAccount(User $user = null, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
     {
         if (!$user) {
             $user = new User();
@@ -32,9 +35,27 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash);
+            if ($request->attributes->get('_route') == 'inscription' ) {
+                $user->setActivationToken(md5(uniqid()));
+            }
+            
 
             $manager->persist($user);
             $manager->flush();
+
+            if ($request->attributes->get('_route') == 'inscription' ) {
+                $email = (new TemplatedEmail())
+                ->from('admin@lebontroc.com')
+                ->to($user->getMail())
+                ->subject('Validation de votre compte Le Bon Troc')
+                ->htmlTemplate('mails/activation.html.twig')
+                ->context([
+                    'token' => $user->getActivationToken()
+                ]);
+                $mailer->send($email);
+            }
+
+            
 
             return $this->redirectToRoute('index');
         }
@@ -71,5 +92,24 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('index');
         }
         
+    }
+
+    /**
+     * @Route("/activation/{token}", name="activation")
+     */
+    public function activation($token, UserRepository $repo, EntityManagerInterface $manager)
+    {
+        $user = $repo->findOneBy(['activation_token' => $token]);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Cet Utilisateur n\'existe pas, ou a déjà été validé !');
+        }
+        $user->setActivationToken(null);
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->addFlash('message', 'Utilisateur activé avec succès');
+
+        return $this->redirectToRoute('index');
     }
 }
