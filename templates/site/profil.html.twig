@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ user.nom }} {{user.prenom}}{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -13,12 +15,12 @@
     {% endif %}
     <h2>Mes annonces</h2>
     {% if app.user.id is same as(user.id) %}
-        <a href="{{path('new', {'id': user.id})}}"><button class="btn btn-success">Créer une nouvelle annonce</button></a>
+        <a href="{{path('new', {'id': user.id})}}"><button class="btn btn-success m-2">Créer une nouvelle annonce</button></a></br>
     {% endif %}
     {% for annonce in annonces %}
-    <ul>
-        <li><a href="{{path('annonce', {'id': annonce.id})}}">{{ annonce.titre }}</li>
-    </ul>
+    <div class="d-inline-flex flex-wrap bg-light" style="border-radius:5px;">
+        <a href="{{path('annonce', {'id': annonce.id})}}" class="m-4">{{ annonce.titre }}</a>
+    </div>
     {% endfor %}
 </div>
 

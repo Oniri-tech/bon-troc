@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-around">
+            <form action="/login/forgot/send" method="post" class="col-md-6">
+                <div class="form-group">
+                    <label for="inputEmail">indiquez l'adresse mail associée à votre compte</label>
+                    <input type="email" class="form-control" id="inputEmail" name="email">
+                    <small id="emailHelp" class="form-text text-muted">Nous enverrons un mail avec un lien pour générer un nouveau mot de passe</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

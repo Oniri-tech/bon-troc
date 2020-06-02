@@ -30,13 +30,18 @@
                 <p>{{annonce.contrepartie}}</p>
             </div>
         </div>
-   </div>
-    {% if is_granted('ROLE_ADMIN') or app.user.id is same as(posteur.id) %}
-        <a href="{{path('delete',{'id': annonce.id})}}"><button class="btn btn-danger">Supprimer l'annonce</button></a>
-        <a href="{{path('update',{'id': annonce.id})}}"><button class="btn btn-warning">Modifier l'annonce</button></a>
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') and annonce.valide is same as(false) %}
-        <a href="{{path('validate',{'id': annonce.id})}}"><button class="btn btn-success">Valider l'annonce</button></a>
-    {% endif %}
-    <a href="{{path('profile',{'id': posteur.id})}}"><button class="btn btn-success">Aller sur le profil de {{ posteur.prenom }}</button></a>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row justify-content-center">
+        {% if is_granted('ROLE_ADMIN') or app.user.id is same as(posteur.id) %}
+            <a href="{{path('delete',{'id': annonce.id})}}"><button class="btn btn-danger m-1">Supprimer l'annonce</button></a>
+            <a href="{{path('update',{'id': annonce.id})}}"><button class="btn btn-warning m-1">Modifier l'annonce</button></a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') and annonce.valide is same as(false) %}
+            <a href="{{path('validate',{'id': annonce.id})}}"><button class="btn btn-success m-1">Valider l'annonce</button></a>
+        {% endif %}
+            <a href="{{path('profile',{'id': posteur.id})}}"><button class="btn btn-success m-1">Aller sur le profil de {{ posteur.prenom }}</button></a>
+        </div>
+    </div>
 {% endblock %}
