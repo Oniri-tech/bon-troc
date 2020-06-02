@@ -4,13 +4,16 @@
 
 {% block body %}
 {% for annonce in annonces %}
-    <div class="container">
+    <div class="container mt-2 ">
         <div class="row justify-content bg-light rounded">
             <div class="col p-3">
                 <h2>{{ annonce.titre }}</h2>
             </div>
+            <div class="col p-3">
+            <h3> {{annonce.IdPosteur.codePost}}, {{annonce.IdPosteur.commune}} </h3>
+            </div>
             <div class="col mt-auto mb-auto">
-                <a href="{{path('annonce', {'id': annonce.id})}}"><button class="btn btn-success">Accéder à l'annonce</button></a>
+                <a href="{{path('annonce', {'id': annonce.id})}}">  <button class="btn btn-success">Accéder à l'annonce</button></a>
             </div>
         </div>
     </div>
