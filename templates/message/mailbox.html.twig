@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% for message in messages %}
+        <div class="d-flex justify-content-between mt-3">
+            <h3 class="mt-auto mb-auto">{{ message.emetteur.prenom }}</h3>
+            <div class="d-flex justify-content-end">
+            <h4 class="mt-auto mb-auto mx-2">{{ message.date|date("m/d/Y") }}</h4>
+            <a href="{{path('message', {id : message.id})}}"><button class="btn btn-success mx-2">Consulter</button></a>
+            <a href="{{path('delete_message', {id : message.id})}}" onclick="return(confirm('Etes-vous sûr de vouloir supprimer votre compte ?'));"><button class="btn btn-danger mx-2">Supprimer</button></a>
+            </div>
+        </div>
+        <hr />
+        {% endfor %}
+    </div>
+{% endblock %}

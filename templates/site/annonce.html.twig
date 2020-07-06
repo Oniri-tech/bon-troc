@@ -9,14 +9,13 @@
         <p class="text-center"><span class="badge badge-success">Votre annonce est en ligne :)</span></p>
     {% endif %}
 
-    <p class="text-center">{{ posteur.codePost }} {{posteur.commune}}</p>
+    <p class="text-center">{{posteur.codePost}} {{posteur.commune}}</p>
    <p class="text-center">annonce postée par {{posteur.nom}} {{posteur.prenom}}</p>
    <br>
    <h3>Type d'annnonce : {{ annonce.type }}</h3>
    <div class="container">
         <div class="row justify-content-between">
-            <div class="col-md-5" style="background: rgb(210,224,19);
-                background: radial-gradient(circle, rgba(210,224,19,1) 0%, rgba(200,240,85,1) 100%); border-radius:5px">
+            <div class="col-md-5 annonce">
                 {% if annonce.type is same as('recherche') %}
                     <h3 class="text-center">Je cherche de l'aide pour :</h3>
                 {% else %}
@@ -24,8 +23,7 @@
                 {% endif %}
                 <p>{{annonce.contenu}}</p>
             </div>
-            <div class="col-md-5" style="background: rgb(210,224,19);
-            background: radial-gradient(circle, rgba(210,224,19,1) 0%, rgba(200,240,85,1) 100%); border-radius:5px">
+            <div class="col-md-5 annonce">
                 <h3 class="text-center">En échange de :</h3>
                 <p>{{annonce.contrepartie}}</p>
             </div>
@@ -41,7 +39,11 @@
         {% if is_granted('ROLE_ADMIN') and annonce.valide is same as(false) %}
             <a href="{{path('validate',{'id': annonce.id})}}"><button class="btn btn-success m-1">Valider l'annonce</button></a>
         {% endif %}
-            <a href="{{path('profile',{'id': posteur.id})}}"><button class="btn btn-success m-1">Aller sur le profil de {{ posteur.prenom }}</button></a>
+        {% if app.user.activationToken is null %}
+            <a href="{{path('create_message',{'id': posteur.id})}}"><button class="btn btn-success m-1">Envoyer un message à {{ posteur.prenom }}</button></a>
+        {% else %}
+            <p>Pour contacter {{posteur.prenom}}, vous devez valider votre compte en cliquant sur le lien qui vous a été envoyé par mail lors de votre inscription</p>
+        {% endif %}
         </div>
     </div>
 {% endblock %}

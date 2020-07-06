@@ -9,8 +9,11 @@
             <div class="col p-3">
                 <h2>{{ annonce.titre }}</h2>
             </div>
-            <div class="col p-3">
+            <div class="col p-3 col mt-auto mb-auto">
             <h3> {{annonce.IdPosteur.codePost}}, {{annonce.IdPosteur.commune}} </h3>
+            </div>
+            <div class="col p-3 col mt-auto mb-auto">
+            <h3>postée par {{annonce.IdPosteur.prenom}}</h3>
             </div>
             <div class="col mt-auto mb-auto">
                 <a href="{{path('annonce', {'id': annonce.id})}}">  <button class="btn btn-success">Accéder à l'annonce</button></a>

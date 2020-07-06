@@ -32,8 +32,9 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $user->setPassword(htmlspecialchars($user->getPassword()));
             $hash = $encoder->encodePassword($user, $user->getPassword());
-
             $user->setPassword($hash);
+
+
             if ($request->attributes->get('_route') == 'inscription' ) {
                 $user->setActivationToken(md5(uniqid()));
             }
@@ -167,7 +168,13 @@ class SecurityController extends AbstractController
      */
     public function reset(UserRepository $repo, EntityManagerInterface $manager, MailerInterface $mailer)
     {
-        $user = $repo->findOneBy(['mail' => $_POST['email']]);
+        if($this->getUser()){
+            $user = $this->getUser();
+        }
+        else{
+            $user = $repo->findOneBy(['mail' => $_POST['email']]);
+        }
+        
 
         if ($user) {
             $user->setResetToken(md5(uniqid()));
@@ -178,7 +185,7 @@ class SecurityController extends AbstractController
             $email = (new TemplatedEmail())
                 ->from('admin@lebontroc.com')
                 ->to($user->getMail())
-                ->subject('Validation de votre compte Le Bon Troc')
+                ->subject('Changement de mot de passe')
                 ->htmlTemplate('mails/reset.html.twig')
                 ->context([
                     'user' => $user
@@ -186,7 +193,7 @@ class SecurityController extends AbstractController
                 $mailer->send($email);
                 $this->addFlash(
                     'notice',
-                    'Le mail à été envoyé, vérifiez votre boite mail :)'
+                    'Un mail à été envoyé, vérifiez votre boite mail :)'
                 );
                 return $this->redirectToRoute('index');
         }
@@ -201,13 +208,11 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("password/{token}/reset", name="reset_pass")
-     * @Route("profile/{id}/changepass", name="change_pass")
      */
-    public function resetPass($token = null, $user=null, UserRepository $repo, EntityManagerInterface $manager, Request $request, UserPasswordEncoderInterface $encoder)
+    public function resetPass($token = null, UserRepository $repo, EntityManagerInterface $manager, Request $request, UserPasswordEncoderInterface $encoder)
     {
-        if (!$user) {
-            $user = $repo->findOneBy(['reset_token' => $token]);            
-        }
+
+        $user = $repo->findOneBy(['reset_token' => $token]);            
         if ($user) {
             $form = $this->createFormBuilder($user)
                         ->add('password', PasswordType::class)

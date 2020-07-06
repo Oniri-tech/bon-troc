@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center mt-2">Message de {{ message.emetteur.prenom }}</h1>
+    <h4 class="text-center">Reçu le {{ message.date|date("d/m/Y")}}</h4>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <p class="col-10">{{message.contenu}}</p>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+        <a href="{{path('create_message', {'id' : message.emetteur.id})}}" ><button class="btn btn-success">Répondre</button></a>
+        </div>
+    </div>
+
+{% endblock %}

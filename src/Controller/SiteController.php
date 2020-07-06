@@ -75,6 +75,7 @@ class SiteController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
@@ -85,6 +86,7 @@ class SiteController extends AbstractController
             'posteur' => $repo->find($id)->getIdPosteur()
         ]);
     }
+    
     /**
      * @Route("/annonce/{id}/update", name="update")
      */
@@ -151,12 +153,12 @@ class SiteController extends AbstractController
     /**
      * @Route("/annonces", name="allAnnonces")
      */
-    public function allAnnonces(AnnoncesRepository $repo, UserRepository $repoUse)
-    {
+    public function allAnnonces(UserRepository $repoUse)
+    {   
         $user = $this->getUser()->getCodePost();
-        $usersexte = $repoUse->findBy(['code_post' => $user]);
+        $userscode = $repoUse->findBy(['code_post' => $user]);
         $annonces = [];
-        foreach ($usersexte as $userexte) {
+        foreach ($userscode as $userexte) {
             $annoncesUser = $userexte->getAnnonces();
             foreach ($annoncesUser as $annonce){
                 if ($annonce->getValide() == true) {

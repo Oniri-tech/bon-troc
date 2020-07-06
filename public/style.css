@@ -1,0 +1,68 @@
+body {
+    background: rgb(202,212,209);
+    background: radial-gradient(circle, rgba(202,212,209,1) 0%, rgba(75,209,151,1) 100%);
+}
+.annonce {
+    background: rgb(210,224,19);
+    background: radial-gradient(circle, rgba(210,224,19,1) 0%, rgba(200,240,85,1) 100%); 
+    border-radius:5px;
+}
+.img-index {
+    width:300px;
+}
+.annonces-profil {
+    border-radius:5px;
+}
+.input-message {
+    height: 30vh !important;
+}
+ul {
+    list-style: none;
+}
+@media (min-width: 576px) {
+    .bouton-nav {
+        width:100%;
+        font-size: 2rem;
+    }   
+    button{
+        font-size: 2rem !important;
+    }
+    p {
+        font-size: 2rem;
+    }
+    h3 {
+        font-size: 2.5rem;
+    }
+    h1 {
+        font-size: 3rem;
+    }
+    h2 {
+        font-size: 2.75rem;
+    }
+    li{
+        font-size: 2rem;
+    }
+}
+@media (min-width: 992px){
+    .bouton-nav {
+        font-size: 1rem;
+    } 
+    button{
+        font-size: 1rem !important;
+    }
+    p {
+        font-size: 1rem;
+    }
+    h3 {
+        font-size: 1.75rem;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+    li{
+        font-size: 1.5rem;
+    }
+}

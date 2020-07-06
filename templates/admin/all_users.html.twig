@@ -9,7 +9,7 @@
             <div class="col p-3">
                 <h2>{{ user.nom }} {{ user.prenom }}</h2>
             </div>
-            <div class="col mt-auto mb-auto">
+            <div class="col mt-auto mb-auto d-flex justify-content-end">
                 <a href="{{path('profile', {'id': user.id})}}"><button class="btn btn-success">Accéder au profil</button></a>
             </div>
         </div>

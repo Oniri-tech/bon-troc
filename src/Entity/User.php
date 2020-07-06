@@ -24,6 +24,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=120)
+     * @Assert\Email(
+     *     message = "Merci de rentrer une adresse mail valide"
+     * )
      */
     private $mail;
 
@@ -99,9 +102,15 @@ class User implements UserInterface
      */
     private $reset_token;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="emetteur", orphanRemoval=true)
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -279,6 +288,37 @@ class User implements UserInterface
     public function setResetToken(?string $reset_token): self
     {
         $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setEmetteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getEmetteur() === $this) {
+                $message->setEmetteur(null);
+            }
+        }
 
         return $this;
     }

@@ -5,13 +5,13 @@
         <title>{% block title %}Le bon Troc{% endblock %}</title>
         <link href="https://bootswatch.com/4/sketchy/bootstrap.min.css" rel="stylesheet" 
         crossorigin="anonymous">
+        <link href="{{asset('style.css')}}" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         {% block stylesheets %}{% endblock %}
     </head>
-    <body style="background: rgb(202,212,209);
-    background: radial-gradient(circle, rgba(202,212,209,1) 0%, rgba(75,209,151,1) 100%);">
+    <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="{{path('index')}}">Le bon Troc</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,21 +20,18 @@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{path('index')}}">Home</a>
-            </li>
           </ul>
           
           {% if not app.user %}
-            <a class="nav-link" href="{{path('inscription')}}"><button class="btn btn-warning"> S'inscrire </button></a>
+            <a class="nav-link" href="{{path('inscription')}}"><button class="btn btn-warning bouton-nav"> S'inscrire </button></a>
           {% else %}
             {% if is_granted('ROLE_ADMIN') %}
-              <a class="nav-link" href="{{path('allUser')}}"><button class="btn btn-warning"> Liste des utilisateurs </button></a>
-              <a class="nav-link" href="{{path('annoncesWait')}}"><button class="btn btn-warning"> Annonces en attente </button></a>
+              <a class="nav-link" href="{{path('allUser')}}"><button class="btn btn-warning bouton-nav"> Liste des utilisateurs </button></a>
+              <a class="nav-link" href="{{path('annoncesWait')}}"><button class="btn btn-warning bouton-nav"> Annonces en attente </button></a>
             {% endif %}
-              <a class="nav-link" href="{{path('allAnnonces')}}"><button class="btn btn-success"> Liste des Annonces </button></a>
-              <a class="nav-link" href="{{path('profile', {'id': app.user.id })}}"><button class="btn btn-info">Mon Profil</button>
-              <a class="nav-link" href="{{path('security_logout')}}"><button class="btn btn-outline-warning">Se déconnecter</button></a>
+              <a class="nav-link" href="{{path('allAnnonces')}}"><button class="btn btn-success bouton-nav"> Liste des Annonces </button></a>
+              <a class="nav-link" href="{{path('profile', {'id': app.user.id })}}"><button class="btn btn-info bouton-nav">Mon Profil</button>
+              <a class="nav-link" href="{{path('security_logout')}}"><button class="btn btn-outline-warning bouton-nav">Se déconnecter</button></a>
           {% endif %}
         </div>
       </nav>
@@ -44,6 +41,9 @@
           </script>
       {% endfor %}
       {% block body %}{% endblock %}
+      <div class="fixed-bottom d-flex flex-row-reverse">
+          <a href="mailto:lebontroc91@gmail.com">Nous Contacter</a>
+      </div>
       {% block javascripts %}{% endblock %}
     </body>
 </html>
